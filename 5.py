@@ -1,7 +1,7 @@
 import csv
 
 
-def paste_sort(file):
+def paste_sort(file):  # Используем сортировку вставками по количеству товара
     for i in range(1, len(file)):
         x = file[i]
         j = i
@@ -9,18 +9,17 @@ def paste_sort(file):
             file[j] = file[j - 1]
             j -= 1
         file[j] = x
-    return file[::-1]
+    return file[::-1]  # Возвращаем список, отсортированный в обратную сторону
 
 
 with open('products.csv', encoding='utf-8') as file:
     reader = list(csv.DictReader(file, delimiter=';'))
     reader = paste_sort(reader)
-    # new_reader = reader[:10][::-1]
     new_reader = {}
-    for i in reader[:10][::-1]:
-        if i["Category"] not in new_reader.keys():
+    for i in reader[:10]:  # Первые 10 продуктов
+        if i["Category"] not in new_reader.keys():  # Если категории нет в словаре, записываем её
             new_reader[i["Category"]] = float(i["Count"])
-        else:
+        else:  # Если есть - увеличваем
             new_reader[i["Category"]] = new_reader[i["Category"]] + float(i["Count"])
     reader = []
     for i in new_reader:
